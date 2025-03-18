@@ -1,0 +1,65 @@
+/* Base styles */
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    background-color: #000;
+}
+
+canvas {
+    display: block;
+}
+
+/* Container for the whole app */
+#signal-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+/* Control panel styling */
+#control-panel {
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Themed slider styles will be added dynamically */
+.themed-slider {
+    width: 100%;
+}
+
+/* Sound toggle button styles */
+.control-button {
+    cursor: pointer;
+    display: block;
+    margin: 0 auto 15px auto;
+}
+
+/* Value display for sliders */
+.value-display {
+    text-align: center;
+    margin-top: 0;
+    width: 100%;
+}
+
+/* Control groups */
+.control-group {
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+/* Control labels */
+.control-label {
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+/* Control section headers */
+.control-header {
+    width: 100%;
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-align: center;
+    padding-bottom: 10px;
+}
