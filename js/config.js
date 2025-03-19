@@ -8,7 +8,7 @@ const chartWidth = 700;
 const chartHeight = canvasHeight - 2 * margin;
 
 // UI control area - positioning
-const controlX = margin + chartWidth + 75;
+const controlX = chartWidth + margin * 2 - 20;
 const controlWidth = 210;
 
 // Axis properties

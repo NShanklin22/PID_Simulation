@@ -50,7 +50,7 @@ function createControlPanel() {
     title.parent('control-panel');
     title.style('width', '100%');
     title.style('font-size', '20px');
-    title.style('margin-bottom', '15px');
+    title.style('margin-bottom', '5px');
     title.style('text-align', 'center');
     title.style('color', getRgbColorString(themes[currentTheme].text));
     title.style('border-bottom', `1px solid ${getRgbColorString(themes[currentTheme].text)}`);
@@ -62,13 +62,13 @@ function createControlPanel() {
 function createThemeSelector() {
     const themeDiv = createDiv();
     themeDiv.parent('control-panel');
-    themeDiv.style('margin-bottom', '10px');
+    themeDiv.style('margin-bottom', '2px');
     themeDiv.style('width', '100%');
     themeDiv.class('control-group');
     
     const themeLabel = createDiv('Theme:');
     themeLabel.parent(themeDiv);
-    themeLabel.style('margin-bottom', '5px');
+    themeLabel.style('margin-bottom', '2px');
     themeLabel.style('color', getRgbColorString(themes[currentTheme].text));
     themeLabel.style('text-align', 'center');
     themeLabel.class('control-label');
@@ -95,13 +95,13 @@ function createThemeSelector() {
 function createSignalSelector() {
     const signalDiv = createDiv();
     signalDiv.parent('control-panel');
-    signalDiv.style('margin-bottom', '5px');
+    signalDiv.style('margin-bottom', '2px');
     signalDiv.style('width', '100%');
     signalDiv.class('control-group');
     
     const signalLabel = createDiv('Signal Types:');
     signalLabel.parent(signalDiv);
-    signalLabel.style('margin-bottom', '10px');
+    signalLabel.style('margin-bottom', '2px');
     signalLabel.style('color', getRgbColorString(themes[currentTheme].text));
     signalLabel.style('text-align', 'center');
     signalLabel.class('control-label');
@@ -161,13 +161,13 @@ function createSliders() {
 function createSliderControl(labelText, id, min, max, defaultValue, step) {
     const sliderDiv = createDiv();
     sliderDiv.parent('control-panel');
-    sliderDiv.style('margin-bottom', '10px');
+    sliderDiv.style('margin-bottom', '2px');
     sliderDiv.style('width', '100%');
     sliderDiv.class('control-group');
     
     const sliderLabel = createDiv(labelText);
     sliderLabel.parent(sliderDiv);
-    sliderLabel.style('margin-bottom', '5px');
+    sliderLabel.style('margin-bottom', '2px');
     sliderLabel.style('color', getRgbColorString(themes[currentTheme].text));
     sliderLabel.style('text-align', 'center');
     sliderLabel.class('control-label');
@@ -209,31 +209,9 @@ function createSoundControls() {
     // Create sound toggle button
     const soundDiv = createDiv();
     soundDiv.parent('control-panel');
-    soundDiv.style('margin-top', '20px');
-    soundDiv.style('margin-bottom', '10px');
     soundDiv.style('width', '100%');
     soundDiv.style('text-align', 'center');
     soundDiv.class('control-group');
-    
-    const soundLabel = createDiv('Audio Controls:');
-    soundLabel.parent(soundDiv);
-    soundLabel.style('margin-bottom', '10px');
-    soundLabel.style('color', getRgbColorString(themes[currentTheme].text));
-    soundLabel.style('text-align', 'center');
-    soundLabel.class('control-label');
-    
-    soundToggle = createButton('Sound: OFF');
-    soundToggle.parent(soundDiv);
-    soundToggle.style('width', '180px');
-    soundToggle.style('height', '30px');
-    soundToggle.style('background-color', 'black');
-    soundToggle.style('color', getRgbColorString(themes[currentTheme].text));
-    soundToggle.style('border', `1px solid ${getRgbColorString(themes[currentTheme].text)}`);
-    soundToggle.style('cursor', 'pointer');
-    soundToggle.style('margin', '0 auto 15px auto');
-    soundToggle.style('display', 'block');
-    soundToggle.class('control-button');
-    soundToggle.mousePressed(toggleSound);
     
     // Create volume slider
     createAudioSliderControl('Volume:', 'volume', 0, 1, defaults.volume, 0.01);
@@ -246,13 +224,13 @@ function createSoundControls() {
 function createAudioSliderControl(labelText, id, min, max, defaultValue, step) {
     const sliderDiv = createDiv();
     sliderDiv.parent('control-panel');
-    sliderDiv.style('margin-bottom', '10px');
+    sliderDiv.style('margin-bottom', '2px');
     sliderDiv.style('width', '100%');
     sliderDiv.class('control-group');
     
     const sliderLabel = createDiv(labelText);
     sliderLabel.parent(sliderDiv);
-    sliderLabel.style('margin-bottom', '5px');
+    sliderLabel.style('margin-bottom', '2px');
     sliderLabel.style('color', getRgbColorString(themes[currentTheme].text));
     sliderLabel.style('text-align', 'center');
     sliderLabel.class('control-label');
