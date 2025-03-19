@@ -6,11 +6,15 @@ function setup() {
     const canvas = createCanvas(canvasWidth, canvasHeight);
     canvas.parent('signal-container');
     
-    // Create UI elements
-    createUIControls();
-    
     // Initialize signals for each type
     initializeSignals();
+    
+    // Function from controls.js - make sure it's loaded before main.js
+    if (typeof createUIControls === 'function') {
+        createUIControls();
+    } else {
+        console.error("createUIControls function not found. Make sure ui/controls.js is loaded before main.js");
+    }
 }
 
 // p5.js draw function - called every frame to update display
@@ -45,6 +49,8 @@ function keyPressed() {
     // Optional: Add keyboard shortcuts
     // Example: Toggle sound with 'S' key
     if (key === 's' || key === 'S') {
-        toggleSound();
+        if (typeof toggleSound === 'function') {
+            toggleSound();
+        }
     }
 }

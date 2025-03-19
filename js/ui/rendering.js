@@ -27,31 +27,20 @@ function drawAxes() {
     // Y-axis
     line(margin, margin, margin, margin + chartHeight);
     
-    // Use the time from the first signal for x-axis time labels
-    const currentTime = selectedSignals.length > 0 && signals[selectedSignals[0]] 
-        ? Math.floor(signals[selectedSignals[0]].time)
-        : 0;
-    
     // X-axis ticks
     for (let x = 0; x <= chartWidth; x += tickSpacing) {
         // Draw tick marks
         line(margin + x, margin + chartHeight, margin + x, margin + chartHeight + tickLength);
         
-        // Calculate time value for this position (right = current time, left = older time)
-        const timeValue = currentTime - Math.floor((chartWidth - x) / tickSpacing);
-        
-        // Only show positive time values
-        if (timeValue >= 0) {
-            // Draw tick labels
-            textAlign(CENTER, TOP);
-            push();
-            translate(margin + x, margin + chartHeight);
-            textAlign(RIGHT);
-            rotate(-PI/4);
-            fill(themes[currentTheme].text);
-            text(timeValue, -5, -tickSpacing/2 + 10);
-            pop();
-        }
+        // Draw tick labels
+        textAlign(CENTER, TOP);
+        push();
+        translate(margin + x, margin + chartHeight);
+        textAlign(RIGHT);
+        rotate(-PI/4);
+        fill(themes[currentTheme].text);
+        text(x, -5, -tickSpacing/2 + 10);
+        pop();
     }
     
     // Y-axis ticks

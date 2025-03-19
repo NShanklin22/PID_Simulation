@@ -343,3 +343,99 @@ function updateSignalParameters() {
         signal.display(i);
     });
 }
+
+// Create slider CSS based on theme
+function createSliderCSS() {
+    const themeColor = getRgbColorString(themes[currentTheme].text);
+    
+    return `
+        .themed-slider {
+            -webkit-appearance: none;
+            height: 8px;
+            background: #000;
+            border: 1px solid ${themeColor};
+            border-radius: 5px;
+            outline: none;
+        }
+        
+        .themed-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            background: ${themeColor};
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .themed-slider::-moz-range-thumb {
+            width: 15px;
+            height: 15px;
+            background: ${themeColor};
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+        
+        select option {
+            background-color: black;
+        }
+        
+        /* Custom styling for option selection */
+        select option:checked,
+        select option:hover,
+        select option:focus {
+            background-color: ${getRgbaColorString(themes[currentTheme].text, 0.4)} !important;
+            color: white !important;
+        }
+        
+        /* Custom styling for multi-select when element has focus */
+        select:focus option:checked {
+            background: ${getRgbaColorString(themes[currentTheme].text, 0.7)} !important;
+            color: white !important;
+        }
+    `;
+}
+
+// Add responsive control functionality
+function updateUILayout() {
+    // Get current window dimensions
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    
+    // Get the control panel element
+    const controlPanel = select('#control-panel');
+    if (!controlPanel) return;
+    
+    // Recalculate canvas and chart dimensions if needed
+    // For now, we'll just handle control panel position
+    
+    // Ensure control panel stays in visible area
+    const currentX = controlPanel.position().x;
+    const currentY = controlPanel.position().y;
+    
+    // Check if control panel is outside visible area
+    if (currentX + controlWidth > windowWidth) {
+        const newX = Math.max(10, windowWidth - controlWidth - 20);
+        controlPanel.position(newX, currentY);
+    }
+    
+    if (currentY + chartHeight > windowHeight) {
+        const newY = Math.max(10, windowHeight - chartHeight - 20);
+        controlPanel.position(currentX, newY);
+    }
+    
+    // Add scrolling if panel is too tall
+    if (chartHeight > windowHeight - 40) {
+        controlPanel.style('overflow-y', 'auto');
+        controlPanel.style('height', (windowHeight - 40) + 'px');
+    }
+}
+
+// Call this when window is resized
+function handleWindowResize() {
+    updateUILayout();
+}
+
+// Make sure to call this at the end of setup
+window.addEventListener('resize', handleWindowResize);
