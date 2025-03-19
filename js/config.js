@@ -20,6 +20,9 @@ const axisColor = 0;
 const labelX = "Time";
 const labelY = "Amplitude";
 
+// Scrolling parameters
+const scrollSpeed = 1; // Default speed at which the chart scrolls horizontally
+
 // Theme settings
 const themes = {
     Fallout: {

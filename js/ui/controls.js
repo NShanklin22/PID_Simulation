@@ -4,6 +4,7 @@ let signalSelector;
 let amplitudeSlider;
 let frequencySlider;
 let setpointSlider;
+let scrollSpeedSlider;
 let volumeSlider;
 let reverbSlider;
 let soundToggle;
@@ -151,7 +152,10 @@ function createSliders() {
     createSliderControl('Amplitude:', 'amp', 0.1, 2, defaults.amplitude, 0.1);
     
     // Create frequency slider
-    createSliderControl('Frequency:', 'freq', 0.005, 0.05, defaults.frequency, 0.005);
+    createSliderControl('Frequency:', 'freq', 0.005, 5, defaults.frequency, 0.005);
+    
+    // Create scroll speed slider
+    createSliderControl('Scroll Speed:', 'scroll', 1, 100, scrollSpeed, 1);
     
     // Create setpoint slider
     createSliderControl('Setpoint:', 'setpoint', -200, 200, defaults.setpoint, 10);
@@ -185,6 +189,9 @@ function createSliderControl(labelText, id, min, max, defaultValue, step) {
     } else if (id === 'freq') {
         frequencySlider = createSlider(min, max, defaultValue, step);
         slider = frequencySlider;
+    } else if (id === 'scroll') {
+        scrollSpeedSlider = createSlider(min, max, defaultValue, step);
+        slider = scrollSpeedSlider;
     } else if (id === 'setpoint') {
         setpointSlider = createSlider(min, max, defaultValue, step);
         slider = setpointSlider;
@@ -212,6 +219,18 @@ function createSoundControls() {
     soundDiv.style('width', '100%');
     soundDiv.style('text-align', 'center');
     soundDiv.class('control-group');
+    
+    soundToggle = createButton('Sound: OFF');
+    soundToggle.parent(soundDiv);
+    soundToggle.style('background-color', 'black');
+    soundToggle.style('color', getRgbColorString(themes[currentTheme].text));
+    soundToggle.style('border', `1px solid ${getRgbColorString(themes[currentTheme].text)}`);
+    soundToggle.style('padding', '5px 10px');
+    soundToggle.style('cursor', 'pointer');
+    soundToggle.style('width', '120px');
+    soundToggle.style('margin', '10px auto');
+    soundToggle.mousePressed(toggleSound);
+    soundToggle.class('control-button');
     
     // Create volume slider
     createAudioSliderControl('Volume:', 'volume', 0, 1, defaults.volume, 0.01);
@@ -301,6 +320,12 @@ function updateSignalParameters() {
     // Update UI display values
     updateSelectValue('#amp-value', formatNumber(amplitude, 1));
     updateSelectValue('#freq-value', formatNumber(frequency, 3));
+    
+    // Update scroll speed display
+    if (scrollSpeedSlider) {
+        updateSelectValue('#scroll-value', formatNumber(scrollSpeedSlider.value(), 0));
+    }
+    
     updateSelectValue('#setpoint-value', setpoint);
     
     // Update and display selected signals

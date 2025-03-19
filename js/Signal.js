@@ -10,6 +10,7 @@ class Signal {
         this.points = [];           // Array to store calculated points
         this.type = type;           // Type of signal (sine, cosine, random, perlin, setpoint)
         this.setpoint = 0;          // For setpoint signal
+        this.visiblePoints = [];    // Points that are currently visible in the chart
         
         // For Perlin noise
         this.noiseOffset = random(1000);
@@ -19,23 +20,27 @@ class Signal {
     }
     
     update() {
-        // Calculate all points for the signal
-        this.points = [];
+        // Calculate new point for the current time
+        const scrollFactor = scrollSpeedSlider ? scrollSpeedSlider.value() : scrollSpeed;
         
-        for (let x = 0; x <= chartWidth; x++) {
-            // Calculate y position based on signal type
-            let yPos = this.calculateYPosition(x);
-            
-            // Limit the y position to chart bounds
-            yPos = constrain(yPos, -chartHeight/2, chartHeight/2);
-            
-            // Store the point
-            this.points.push({x: x, y: yPos});
+        // Calculate y position based on signal type with current time
+        let yPos = this.calculateYPosition(this.time);
+        
+        // Limit the y position to chart bounds
+        yPos = constrain(yPos, -chartHeight/2, chartHeight/2);
+        
+        // Add new point to the beginning of the array
+        this.points.unshift({x: this.time, y: yPos});
+        
+        // Keep only enough points to fill the chart width plus some buffer
+        const maxPoints = chartWidth + 100;
+        if (this.points.length > maxPoints) {
+            this.points.pop();
         }
         
         // Update the time for animation (except for setpoint)
         if (this.type !== "setpoint") {
-            this.time += 0.02;
+            this.time += .001 * scrollFactor;
         }
         
         // Calculate audio frequency based on visual frequency and amplitude
@@ -50,15 +55,15 @@ class Signal {
     calculateYPosition(x) {
         switch(this.type) {
             case "sine":
-                return this.amplitude * 100 * sin(this.frequency * x + this.phase + this.time);
+                return this.amplitude * 100 * sin(this.frequency * x + this.phase);
             case "cosine":
-                return this.amplitude * 100 * cos(this.frequency * x + this.phase + this.time);
+                return this.amplitude * 100 * cos(this.frequency * x + this.phase);
             case "random":
-                const factor = Math.random(-1,1) * 1000;
+                const factor = map(x, 0, 1000, 0, 10); // Use time as a seed factor
                 return chartHeight/2 * map(noise(factor), 0, 1, -1, 1) * this.amplitude;
             case "perlin":
                 // Smooth noise
-                return this.amplitude * 100 * map(noise(this.noiseOffset + x * this.frequency * 0.1, this.time * 0.1), 0, 1, -1, 1);
+                return this.amplitude * 100 * map(noise(this.noiseOffset + x * this.frequency * 0.1), 0, 1, -1, 1);
             case "setpoint":
                 // Constant value
                 return this.setpoint;
@@ -79,8 +84,16 @@ class Signal {
         
         // Start drawing the line
         beginShape();
+        
+        // Draw points from right to left (newest point at right)
         for (let i = 0; i < this.points.length; i++) {
-            vertex(this.points[i].x, this.points[i].y);
+            // Map time value to x coordinate
+            // Most recent point (i=0) should be at the right edge of the chart
+            let xPos = chartWidth - i;
+            
+            if (xPos >= 0) {
+                vertex(xPos, this.points[i].y);
+            }
         }
         endShape();
         
